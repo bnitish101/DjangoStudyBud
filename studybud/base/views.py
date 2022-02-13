@@ -38,6 +38,8 @@ def room(request, pk):
     room = Room.objects.get(id=pk)
     print('-----------')
     print(room)
+    print(room.name)
+    print(room.description)
     print('-----------')
     context = {'room': room}
     return render(request, 'base/room.html', context)
@@ -69,3 +71,12 @@ def updateRoom(request, pk):
     
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
+
+def deleteRoom(request, pk):
+    room = Room.objects.get(id=pk)
+
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home')
+        
+    return render(request, 'base/delete.html', {'obj': room})
