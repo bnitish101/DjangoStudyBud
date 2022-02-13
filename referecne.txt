@@ -1,3 +1,7 @@
-Username: nio
+Username: super-admin
 Email address: bnitish101@gmail.com
 Pass: Admin123$
+
+Username: nio
+Email address: bnitish101@gmail.com
+Pass: Nio123$$

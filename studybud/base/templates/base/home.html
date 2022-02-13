@@ -4,10 +4,11 @@
 
 <h1>Home App</h1>
 <h3>List Of rooms</h3>
-<ul>
-    {% for i in rooms %}
-    <li><a href="{% url 'room' i.id %}" rel="{{i.name}}">{{i.name}}</a></li>
+<div>
+    {% for room in rooms %}
+    <span>@ {{room.host.username}}</span>
+    <h4><a href="{% url 'room' room.id %}" rel="{{room.name}}">{{room.name}}</a></h4>
     {% endfor %}
-</ul>
+</div>
 
 {% endblock content %}

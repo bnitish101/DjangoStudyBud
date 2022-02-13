@@ -35,5 +35,8 @@ def room(request, pk):
 
     # context = {'room': room}
     room = Room.objects.get(id=pk)
+    print('-----------')
+    print(room)
+    print('-----------')
     context = {'room': room}
     return render(request, 'base/room.html', context)
