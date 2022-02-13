@@ -8,6 +8,7 @@
 </button><h3>List Of rooms</h3>
 <div>
     {% for room in rooms %}
+    <a href="{% url 'update-room' room.id %}">Edit Room</a>
     <span>@ {{room.host.username}}</span>
     <h4>{{room.id}} -- <a href="{% url 'room' room.id %}" rel="{{room.name}}">{{room.name}}</a></h4>
     {% endfor %}
