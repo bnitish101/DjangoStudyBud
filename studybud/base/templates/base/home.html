@@ -3,11 +3,13 @@
 {% block content %}
 
 <h1>Home App</h1>
-<h3>List Of rooms</h3>
+
+<button><a href="{% url 'create-room' %}">Add Room</a><br>
+</button><h3>List Of rooms</h3>
 <div>
     {% for room in rooms %}
     <span>@ {{room.host.username}}</span>
-    <h4><a href="{% url 'room' room.id %}" rel="{{room.name}}">{{room.name}}</a></h4>
+    <h4>{{room.id}} -- <a href="{% url 'room' room.id %}" rel="{{room.name}}">{{room.name}}</a></h4>
     {% endfor %}
 </div>
 
