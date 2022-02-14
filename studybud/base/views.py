@@ -127,9 +127,19 @@ def room(request, pk):
     print(room.name)
     print(room.description)
     print('-----------')
-    room_message = room.message_set.all().order_by('-created')
+    room_message = room.message_set.all().order_by('-created') # fetch the all data from child table by parent's table id 
+    
+    # ----------- cb+ s (add comments) ----------- #
     if request.method == 'POST':
-        pass
+        # insert data into <Message> table fields 
+        message = Message.objects.create( 
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
+        )
+        return redirect('room', pk=room.id) # this will reload the page
+    # ----------- cb+ e (add comments) ----------- #
+
     context = {'room': room, 'room_message': room_message}
     return render(request, 'base/room.html', context)
 
