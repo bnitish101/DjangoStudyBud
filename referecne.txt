@@ -5,3 +5,9 @@ Pass: Admin123$
 Username: nio
 Email address: bnitish101@gmail.com
 Pass: Nio123$$
+
+# it will check if q is not None the don't set get parameter eg. isset get parameter
+q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+# icontains will check at least match with q values with case insenstive, contains will check with case sentive
+rooms = Room.objects.filter(topic__name__icontains=q)

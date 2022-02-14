@@ -1,6 +1,7 @@
 # from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Room
+from django.db.models import Q
+from .models import Room, Topic
 from .forms import RoomForm
 
 # Create your views here.
@@ -14,11 +15,33 @@ from .forms import RoomForm
 
 def home(request):
     # context = {'rooms':rooms}
-    rooms = Room.objects.all()
+    topics = Topic.objects.all()
+    
+    # rooms = Room.objects.all()
+
+    # it will check if q is not None the don't set get parameter eg. isset get parameter
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    # ----------- cb+ s (search query with single field) ----------- #
+    # icontains will check at least match with q values with case insenstive, contains will check with case sentive
+    # double underscore becase need to match data from <Topic> parent table of <Room> table
+    # rooms = Room.objects.filter(topic__name__icontains=q)
+    # ----------- cb+ e (search query with single field) ----------- #
+    
+    # ----------- cb+ s (search query with multiple fields) ----------- #
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains = q) |
+        Q(name__icontains = q) |
+        Q(description__icontains = q)
+    )
+    # ----------- cb+ e (search query with multiple fields) ----------- #
+    
+    room_count = rooms.count()
+
     print('-----------')
     print(rooms)
     print('-----------')
-    context = {'rooms':rooms}
+    context = {'rooms':rooms, 'topics':topics, 'room_count': room_count}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
