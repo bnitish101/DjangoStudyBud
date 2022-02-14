@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -18,7 +19,7 @@ from .forms import RoomForm
 # ]
 
 def loginPage(request): # do not make login() method because already created one by django admin
-
+    page = 'login'
     # ----------- cb+ s (check is user already logged in) ----------- #
     if request.user.is_authenticated:
         return redirect('home')
@@ -26,7 +27,7 @@ def loginPage(request): # do not make login() method because already created one
 
     if request.method == 'POST':
         print(request.POST)
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
@@ -42,12 +43,33 @@ def loginPage(request): # do not make login() method because already created one
         else:
             messages.error(request, 'Username or Password does not exist')
 
-    context = {}
+    context = {'page':page}
     return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def registerPage(request):
+    # page = 'register'
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        print('------------')
+        print(form.is_valid)
+        print('------------')
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error encounterd during the registration!')
+
+    context = {'form':form}
+    return render(request, 'base/login_register.html', context)
 
 def home(request):
     print('------------- cb+ s (print user data) -------------')
