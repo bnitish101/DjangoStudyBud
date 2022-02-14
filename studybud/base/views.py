@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 # Create your views here.
@@ -127,7 +127,10 @@ def room(request, pk):
     print(room.name)
     print(room.description)
     print('-----------')
-    context = {'room': room}
+    room_message = room.message_set.all().order_by('-created')
+    if request.method == 'POST':
+        pass
+    context = {'room': room, 'room_message': room_message}
     return render(request, 'base/room.html', context)
 
 @login_required(login_url='login') # Before createRoom(request), user login check if not login redirect to the login page

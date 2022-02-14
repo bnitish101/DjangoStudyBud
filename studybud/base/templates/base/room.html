@@ -8,4 +8,18 @@
 <h1>{{ room.name }}!!!!!!!!!!</h1>
 <p>{{room.description}}</p>
 
+<div>
+    <h5>Conversation</h5>
+    <hr>
+    {% for message in room_message %}
+        <div>
+            <small>@{{request.user}} {{message.created|timesince}}</small>
+            <p>
+                {{message.body}}
+            </p>
+
+        </div>
+        <hr>
+    {% endfor %}
+</div>
 {% endblock content %}
