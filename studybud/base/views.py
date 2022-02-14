@@ -128,7 +128,7 @@ def room(request, pk):
     print(room.description)
     print('-----------')
     room_message = room.message_set.all().order_by('-created') # fetch the all data from child table by parent's table id 
-    
+    participants = room.participants.all() # data fetch from many to mayn relationship
     # ----------- cb+ s (add comments) ----------- #
     if request.method == 'POST':
         # insert data into <Message> table fields 
@@ -137,10 +137,11 @@ def room(request, pk):
             room = room,
             body = request.POST.get('body')
         )
+        room.participants.add(request.user)
         return redirect('room', pk=room.id) # this will reload the page
     # ----------- cb+ e (add comments) ----------- #
 
-    context = {'room': room, 'room_message': room_message}
+    context = {'room': room, 'room_message': room_message, 'participants':participants}
     return render(request, 'base/room.html', context)
 
 @login_required(login_url='login') # Before createRoom(request), user login check if not login redirect to the login page
