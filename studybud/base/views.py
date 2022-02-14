@@ -1,6 +1,7 @@
-# from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +18,12 @@ from .forms import RoomForm
 # ]
 
 def loginPage(request): # do not make login() method because already created one by django admin
+
+    # ----------- cb+ s (check is user already logged in) ----------- #
+    if request.user.is_authenticated:
+        return redirect('home')
+    # ----------- cb+ e (check is user already logged in) ----------- #
+
     if request.method == 'POST':
         print(request.POST)
         username = request.POST.get('username')
@@ -43,6 +50,11 @@ def logoutUser(request):
     return redirect('home')
 
 def home(request):
+    print('------------- cb+ s (print user data) -------------')
+    print(request.user)
+    for key, value in request.session.items():
+        print('{} => {}'.format(key, value))
+    print('------------- cb+ e (print user data) ------------- ')
     # context = {'rooms':rooms}
     topics = Topic.objects.all()
     
@@ -96,6 +108,7 @@ def room(request, pk):
     context = {'room': room}
     return render(request, 'base/room.html', context)
 
+@login_required(login_url='login') # Before createRoom(request), user login check if not login redirect to the login page
 def createRoom(request):
     form = RoomForm();
     if request.method == 'POST':
@@ -108,9 +121,16 @@ def createRoom(request):
     context = {'form':form}
     return render(request, 'base/room_form.html', context)
 
+@login_required(login_url='login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+
+    # -------------- cb+ s (check the user id is match with user's id in the room to be updated) -------------- #
+    if request.user != room.host:
+        return HttpResponse('You are not allowed to here!!!!!')
+    # -------------- cb+ e (check the user id is match with user's id in the room to be updated) -------------- #
+
     print('------ cb+ 1 ------')
     if request.method == 'POST':
         print('------ cb+ 2 ------')
@@ -124,8 +144,14 @@ def updateRoom(request, pk):
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
+    
+    # -------------- cb+ s -------------- #
+    if request.user != room.host:
+        return HttpResponse('You are not allowed to here!!!!!')
+    # -------------- cb+ e -------------- #
 
     if request.method == 'POST':
         room.delete()
