@@ -8,10 +8,17 @@
 </head>
 <body>
     <h1><a href="/">Logo</a></h1>
-    <form action="{% url 'home' %}">
-        <input type="text" name="q" placeholder="Search Rooms...">
-    </form>
     {% include 'navbar.html' %}
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    
     <hr>
     {% block content %}
 

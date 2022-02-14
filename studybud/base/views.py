@@ -1,6 +1,9 @@
 # from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -12,6 +15,28 @@ from .forms import RoomForm
 #     {'id':3, 'name':'Learn ReactJs'},
 #     {'id':4, 'name':'Learn Flask'},
 # ]
+
+def loginPage(request): # do not make login() method because already created one by django admin
+    if request.method == 'POST':
+        print(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exist')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user) # this will set the session id data
+            return redirect('home')
+        else:
+            messages.error(request, 'Username or Password does not exist')
+
+    context = {}
+    return render(request, 'base/login_register.html', context)
 
 def home(request):
     # context = {'rooms':rooms}
