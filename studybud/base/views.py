@@ -71,6 +71,14 @@ def registerPage(request):
     context = {'form':form}
     return render(request, 'base/login_register.html', context)
 
+def profilePage(request, pk):
+    users = User.objects.get(id=pk)
+    rooms  = users.room_set.all()
+    room_messages = users.message_set.all()
+    topics = Topic.objects.all()
+    context = {'users':users, 'rooms': rooms, 'room_messages':room_messages, 'topics':topics}
+    return render(request, 'base/profile.html', context)
+
 def home(request):
     print('------------- cb+ s (print user data) -------------')
     print(request.user)
