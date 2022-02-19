@@ -6,7 +6,7 @@
     {% for room_message in room_messages %}
       <div class="activities__box">
         <div class="activities__boxHeader roomListRoom__header">
-          <a href="profile.html" class="roomListRoom__author">
+          <a href="{% url 'profile' room_message.user.id %}" class="roomListRoom__author">
             <div class="avatar avatar--small">
               <img src="{% static 'assets/avatar.svg' %}" />
             </div>
@@ -30,7 +30,7 @@
           {% endif %}
         </div>
         <div class="activities__boxContent">
-          <p>replied to post “<a href="room.html">{{room_message.room.name}}</a>”</p>
+          <p>replied to post “<a href="{% url 'room' room_message.room.id %}">{{room_message.room.name}}</a>”</p>
           <div class="activities__boxRoomContent">
             {{room_message.body}}
           </div>
