@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<div class="home-container">
+    
+    <!-- ----------- cb+ s (topics) ----------- -->
+    <div>
+        {% include 'base/topics_component.html' %}
+    </div>
+    <!-- ----------- cb+ e (topics) ----------- -->
+
+    <!-- ----------- cb+ s (room list) ----------- -->
+    <div>
+        <a href="{% url 'create-room' %}">Add Room</a><br>
+        <h5>List Of rooms</h5>
+        <!-- ----------- cb+ s (feed) ----------- -->
+        {% include 'base/feed_component.html' %}
+        <!-- ----------- cb+ e (feed) ----------- -->
+    </div>
+    <!-- ----------- cb+ e (room list) ----------- -->
+
+    <!-- ----------- cb+ s (activity) ----------- -->
+    <div>
+        {% include 'base/activity_component.html' %}
+    </div>
+    <!-- ----------- cb+ e (activity) ----------- -->
+
+</div>
+{% endblock content %}
