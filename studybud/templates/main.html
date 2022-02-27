@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="{% static 'styles/style.css' %}" />
     <title>ChatRoom</title>
   </head>
-  {% include 'navbar.html' %}
   <body>
+    {% include 'navbar.html' %}
     {% block content %}
-
+    
     {% endblock %}
     <script src="{% static 'js/script.js' %}"></script>
   </body>

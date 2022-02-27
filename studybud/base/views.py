@@ -76,6 +76,9 @@ def profilePage(request, pk):
     rooms  = users.room_set.all()
     room_messages = users.message_set.all()
     topics = Topic.objects.all()
+    print('---------------------')
+    print(room_messages.query)
+    print('---------------------')
     context = {'users':users, 'rooms': rooms, 'room_messages':room_messages, 'topics':topics}
     return render(request, 'base/profile.html', context)
 
@@ -139,6 +142,9 @@ def room(request, pk):
     print('-----------')
     room_message = room.message_set.all().order_by('-created') # fetch the all data from child table by parent's table id 
     participants = room.participants.all() # data fetch from many to mayn relationship
+    print('-----------')
+    print(participants)
+    print('-----------')
     # ----------- cb+ s (add comments) ----------- #
     if request.method == 'POST':
         # insert data into <Message> table fields 
