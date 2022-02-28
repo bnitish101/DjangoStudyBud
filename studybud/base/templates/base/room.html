@@ -18,6 +18,7 @@
           <h3>Study Room</h3>
         </div>
 
+        {% if request.user.id == room.host.id %}
         <div class="room__topRight">
           <a href="{% url 'update-room' room.id %}">
             <svg
@@ -54,7 +55,7 @@
             </svg>
           </a>
         </div>
-
+        {% endif %}
         <!-- <button class="action-button" data-id="120" data-delete-url="https://randomuser.me/api/3324923"
         data-edit-url="profile.html">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -97,11 +98,11 @@
             <div class="thread">
               <div class="thread__top">
                 <div class="thread__author">
-                  <a href="#" class="thread__authorInfo">
+                  <a href="{% url 'profile' message.user.id %}" class="thread__authorInfo">
                     <div class="avatar avatar--small">
                       <img src="{% static 'assets/avatar.svg' %}" />
                     </div>
-                    <span>@{{request.user.username}}</span>
+                    <span>@{{message.user.username}}</span>
                   </a>
                   <span class="thread__date">{{message.created|timesince}} ago</span>
                 </div>
@@ -129,6 +130,7 @@
       {% if request.user.is_authenticated %}
       <div class="room__message">
         <form action="" method="post">
+          {% csrf_token %}
           <input name="body" placeholder="Write your message here..." />
         </form>
       </div>
@@ -141,7 +143,7 @@
       <h3 class="participants__top">Participants <span>({{participants.count}} Joined)</span></h3>
       <div class="participants__list scroll">
         {% for participant in participants %}        
-        <a href="profile.html" class="participant">
+        <a href="{% url 'profile' user.id %}" class="participant">
           <div class="avatar avatar--medium">
             <img src="{% static 'assets/avatar.svg' %}" />
           </div>
