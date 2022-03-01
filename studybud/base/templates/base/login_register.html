@@ -55,21 +55,13 @@
         {% else %}
         <form class="form" action="{% url 'register' %}" method="post">
           {% csrf_token %}
-          <!-- <div class="form__group form__group">
-            <label for="room_name">Username</label>
-            <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+          {% for field in form %}
+          <div class="form__group form__group">
+            <label for="room_name">{{field.label}}</label>
+            {{field}}
+            <!-- <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" /> -->
           </div>
-          <div class="form__group">
-            <label for="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-            />
-          </div> -->
-
-          {{form.as_p}}
+          {% endfor %}
           <button class="btn btn--main" type="submit" value="Register">
             <svg
               version="1.1"
@@ -87,12 +79,12 @@
               ></path>
             </svg>
 
-            Login
+            Register
           </button>
         </form>
         <div class="auth__action">
           <p>Already siged up?</p>
-          <a href="{% url 'login' %}" class="btn btn--link">Sign Up</a>
+          <a href="{% url 'login' %}" class="btn btn--link">Login</a>
         </div>
         {% endif %}
 

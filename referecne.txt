@@ -6,6 +6,10 @@ Username: nio
 Email address: bnitish101@gmail.com
 Pass: Nio123$$
 
+Username: nitish
+Email address: 
+Pass: admin123$
+
 # it will check if q is not None the don't set get parameter eg. isset get parameter
 q = request.GET.get('q') if request.GET.get('q') != None else ''
 
