@@ -75,11 +75,12 @@ def profilePage(request, pk):
     users = User.objects.get(id=pk)
     rooms  = users.room_set.all()
     room_messages = users.message_set.all()
-    topics = Topic.objects.all()
+    all_topics_count = Topic.objects.all().count()
+    topics = Topic.objects.all()[0:5]
     print('---------------------')
     print(room_messages.query)
     print('---------------------')
-    context = {'users':users, 'rooms': rooms, 'room_messages':room_messages, 'topics':topics}
+    context = {'users':users, 'rooms': rooms, 'room_messages':room_messages, 'topics':topics, 'all_topics_count':all_topics_count}
     return render(request, 'base/profile.html', context)
 
 def home(request):
@@ -89,11 +90,17 @@ def home(request):
         print('{} => {}'.format(key, value))
     print('------------- cb+ e (print user data) ------------- ')
     # context = {'rooms':rooms}
-    topics = Topic.objects.all()
+    all_topics_count = Topic.objects.all().count()
+    
+    print('---------------------- all_topics_count----------------------')
+    print(all_topics_count)
+    print('---------------------- all_topics_count----------------------')
+    
+    topics = Topic.objects.all()[0:5]
     
     # rooms = Room.objects.all()
 
-    # it will check if q is not None the don't set get parameter eg. isset get parameter
+    # it will check if q is not None then don't set get parameter eg. isset get parameter
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
     # ----------- cb+ s (search query with single field) ----------- #
@@ -117,7 +124,7 @@ def home(request):
     print('-----------')
     print(rooms)
     print('-----------')
-    context = {'rooms':rooms, 'topics':topics, 'room_count': room_count, 'room_messages':room_messages}
+    context = {'rooms':rooms, 'topics':topics, "all_topics_count":all_topics_count, 'room_count': room_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
@@ -267,3 +274,15 @@ def updateUser(request):
 
     context = {'form':form}
     return render(request, 'base/update_user.html', context)
+
+def topicPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    topics = Topic.objects.filter(name__icontains = q)
+    context = {'topics':topics}
+    return render(request, 'base/topics.html', context)
+
+def activityPage(request):
+    room_messages = Message.objects.all()
+    context = {'room_messages':room_messages}
+    return render(request, 'base/activity.html', context)
