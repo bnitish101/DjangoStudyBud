@@ -13,9 +13,21 @@
     
     
     <script>
+        let roomsContainer = document.getElementById('rooms-container')
         let getRoom = async () => {
             let response = await fetch('http://127.0.0.1:8000/api/rooms/')
             console.log(response)
+            let rooms = await response.json()
+
+            for (let i = 0; i < rooms.length; i++) {
+                // const element = array[response];
+                let room = rooms[i]
+                let backTicks = `` // eg. backtick string javascript: Template literals (Template strings), Template literals are literals delimited with backticks (`), allowing embedded expressions called substitutions. reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals. it allows to write variables with syntax: ${variable}
+                let row = `<div>
+                            <h3>${room.name}</h3>
+                       </div>`
+                roomsContainer.innerHTML += row
+            }
         }
         getRoom()
     </script>
