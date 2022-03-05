@@ -27,6 +27,7 @@ rooms = Room.objects.filter(topic__name__icontains=q)
 - studybud/urls.py: import django.conf import settings
 - studybud/urls.py: import django.conf.urls.static import static
 - studybud/urls.py: append static in urlpatterns eg. urlpatterns += static(settings.MEDIA_URL, document_root.MEDIA_ROOT)
-
-
+- render the image in the template following by avatar.url
+- add enctype="multipart/form-data" to update user form to send the file data
+- views.py: receive file data on submit form. eg. form = UserForm(request.POST, request.FILES, instance=user)
 # ------------ cb+ e (IMAGE UPLOAD) ------------ #
