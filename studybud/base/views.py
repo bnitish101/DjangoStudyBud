@@ -27,15 +27,18 @@ def loginPage(request): # do not make login() method because already created one
 
     if request.method == 'POST':
         print(request.POST)
-        username = request.POST.get('username').lower()
+        # username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(username=username)
+            # user = User.objects.get(username=username)
+            user = User.objects.get(username=email)
         except:
             messages.error(request, 'User does not exist')
 
-        user = authenticate(request, username=username, password=password)
+        # user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user) # this will set the session id data
