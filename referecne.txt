@@ -3,8 +3,8 @@ Email address: bnitish101@gmail.com
 Pass: nitish
 
 Username: nio
-Email address: bnitish101@gmail.com
-Pass: Nio123$$
+Email address: nio@gmail.com
+Pass: userpass
 
 Username: nitish
 Email address: 
@@ -31,3 +31,6 @@ rooms = Room.objects.filter(topic__name__icontains=q)
 - add enctype="multipart/form-data" to update user form to send the file data
 - views.py: receive file data on submit form. eg. form = UserForm(request.POST, request.FILES, instance=user)
 # ------------ cb+ e (IMAGE UPLOAD) ------------ #
+
+- models.py:create new class MyUserCreationForm and abstract UserCreationForm and specify the user creation form fields. eg. fields = ['name', 'username', 'email', 'password1', 'password2']
+- views.py: import the MyUserCreationForm in views.py and call the MyUserCreationForm.
