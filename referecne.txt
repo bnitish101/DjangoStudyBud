@@ -1,6 +1,6 @@
-Username: super-admin
+Username: nitish
 Email address: bnitish101@gmail.com
-Pass: Admin123$
+Pass: nitish
 
 Username: nio
 Email address: bnitish101@gmail.com
