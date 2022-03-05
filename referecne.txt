@@ -15,3 +15,18 @@ q = request.GET.get('q') if request.GET.get('q') != None else ''
 
 # icontains will check at least match with q values with case insenstive, contains will check with case sentive
 rooms = Room.objects.filter(topic__name__icontains=q)
+
+# ------------ cb+ s (IMAGE UPLOAD) ------------ #
+- models.py: To use ImageField need to install Pillow
+- HINT: Get Pillow at https://pypi.org/project/Pillow/ or run command "python -m pip install Pillow".
+- where to upload and how to render out the image
+- settings.py: MEDIA_ROOT = 'BASE_DIR / 'static/images'  # where to upload/save file
+- settings.py: MEDIA_URL = '/images/' # pre fix image while rendering out the images, same as static file
+- next ew need to confg main project urls.py file eg. studybud/urls.py 
+- studybud/urls.py: here need to add file path to this urls.py file
+- studybud/urls.py: import django.conf import settings
+- studybud/urls.py: import django.conf.urls.static import static
+- studybud/urls.py: append static in urlpatterns eg. urlpatterns += static(settings.MEDIA_URL, document_root.MEDIA_ROOT)
+
+
+# ------------ cb+ e (IMAGE UPLOAD) ------------ #
