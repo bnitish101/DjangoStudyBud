@@ -14,7 +14,7 @@
     <div class="profile">
       <div class="profile__avatar">
         <div class="avatar avatar--large active">
-          <img src="{% static 'assets\avatar.svg'%}" />
+          <img src="{{users.avatar.url}}" />
         </div>
       </div>
       <div class="profile__info">
@@ -44,7 +44,7 @@
       <div class="roomListRoom__header">
         <a href="profile.html" class="roomListRoom__author">
           <div class="avatar avatar--small active">
-            <img src="{% static 'assets/avatar.svg' %}" />
+            <img src="{{room_message.user.avatar.url}}" />
           </div>
           <span>@{{room_message.user.username}}</span>
         </a>
