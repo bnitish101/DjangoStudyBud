@@ -30,3 +30,6 @@ rooms = Room.objects.filter(topic__name__icontains=q)
 
 - models.py:create new class MyUserCreationForm and abstract UserCreationForm and specify the user creation form fields. eg. fields = ['name', 'username', 'email', 'password1', 'password2']
 - views.py: import the MyUserCreationForm in views.py and call the MyUserCreationForm.
+
+# All dependancies list
+pip freeze > requirements.txt
